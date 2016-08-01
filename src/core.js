@@ -34,6 +34,10 @@ exports.register = Plotly.register;
 exports.toImage = require('./plot_api/to_image');
 exports.downloadImage = require('./snapshot/download');
 exports.validate = require('./plot_api/validate');
+exports.addFrames = Plotly.addFrames;
+exports.deleteFrames = Plotly.deleteFrames;
+exports.transition = Plotly.transition;
+exports.animate = Plotly.animate;
 
 // plot icons
 exports.Icons = require('../build/ploticon');
