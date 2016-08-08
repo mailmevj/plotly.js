@@ -1083,8 +1083,7 @@ function formatLinear(ax, out, hover, extraPrecision, hideexp) {
 // new, more reliable procedure than d3.round or similar:
 // add half the rounding increment, then stringify and truncate
 // also automatically switch to sci. notation
-var SIPREFIXES = ['f', 'p', 'n', 'μ', 'm', '', 'k', 'M', 'G', 'T'];
-
+var SIPREFIXES = ['f', 'p', 'n', '&mu;', 'm', '', 'k', 'M', 'G', 'T'];
 function numFormat(v, ax, fmtoverride, hover) {
         // negative?
     var isNeg = v < 0,
@@ -1175,7 +1174,7 @@ function numFormat(v, ax, fmtoverride, hover) {
             v += 'E' + signedExponent;
         }
         else if(exponentFormat === 'power') {
-            v += '×10<sup>' + signedExponent + '</sup>';
+            v += '&times;10<sup>' + signedExponent + '</sup>';
         }
         else if(exponentFormat === 'B' && exponent === 9) {
             v += 'B';
