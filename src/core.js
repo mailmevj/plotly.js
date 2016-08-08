@@ -30,10 +30,13 @@ exports.deleteTraces = Plotly.deleteTraces;
 exports.moveTraces = Plotly.moveTraces;
 exports.purge = Plotly.purge;
 exports.setPlotConfig = require('./plot_api/set_plot_config');
-exports.register = Plotly.register;
 exports.toImage = require('./plot_api/to_image');
 exports.downloadImage = require('./snapshot/download');
 exports.validate = require('./plot_api/validate');
+exports.register = require('./plot_api/register');
+
+// scatter is the only trace included by default
+exports.register(require('./traces/scatter'));
 
 // plot icons
 exports.Icons = require('../build/ploticon');
