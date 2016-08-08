@@ -15,7 +15,10 @@ var ENTITIES = {
     'mu': 'μ',
     'amp': '&',
     'lt': '<',
-    'gt': '>'
+    'gt': '>',
+    'nbsp': ' ',
+    'times': '×',
+    'plusmn': '±'
 };
 
 function fixSuperScript(x) {
