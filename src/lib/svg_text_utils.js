@@ -14,6 +14,7 @@
 var d3 = require('d3');
 
 var Lib = require('../lib');
+var html2unicode = require('./html2unicode');
 var xmlnsNamespaces = require('../constants/xmlns_namespaces');
 
 // Append SVG
@@ -64,9 +65,10 @@ function getSize(_selection, _dimension) {
 }
 
 exports.convertToTspans = function(_context, _callback) {
-    var str = _context.text();
+    var str = html2unicode(_context.text());
     var converted = convertToSVG(str);
     var that = _context;
+
     // Until we get tex integrated more fully (so it can be used along with non-tex)
     // allow some elements to prohibit it by attaching 'data-notex' to the original
     var tex = (!that.attr('data-notex')) && converted.match(/([^$]*)([$]+[^$]*[$]+)([^$]*)/);
