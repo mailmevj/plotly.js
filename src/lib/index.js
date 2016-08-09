@@ -656,7 +656,7 @@ lib.numSeparate = function(value, separators) {
  * expand properties.
  *
  * @param {object} frameLookup
- *      An object containing frames keyed by name (i.e. gd._frameData._frameHash)
+ *      An object containing frames keyed by name (i.e. gd._transitionData._frameHash)
  * @param {string} frame
  *      The name of the keyframe to be computed
  *
