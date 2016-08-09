@@ -10,16 +10,7 @@
 'use strict';
 
 var toSuperScript = require('superscript-text');
-
-var ENTITIES = {
-    'mu': 'μ',
-    'amp': '&',
-    'lt': '<',
-    'gt': '>',
-    'nbsp': ' ',
-    'times': '×',
-    'plusmn': '±'
-};
+var stringMappings = require('../constants/string_mappings');
 
 function fixSuperScript(x) {
     var idx = 0;
@@ -43,6 +34,7 @@ function stripTags(x) {
 }
 
 function fixEntities(x) {
+    var entityToUnicode = stringMappings.entityToUnicode;
     var idx = 0;
 
     while((idx = x.indexOf('&', idx)) >= 0) {
@@ -52,7 +44,7 @@ function fixEntities(x) {
             continue;
         }
 
-        var entity = ENTITIES[x.slice(idx + 1, nidx)];
+        var entity = entityToUnicode[x.slice(idx + 1, nidx)];
         if(entity) {
             x = x.slice(0, idx) + entity + x.slice(nidx + 1);
         } else {

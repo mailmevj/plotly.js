@@ -14,8 +14,8 @@
 var d3 = require('d3');
 
 var Lib = require('../lib');
-var html2unicode = require('./html2unicode');
 var xmlnsNamespaces = require('../constants/xmlns_namespaces');
+var stringMappings = require('../constants/string_mappings');
 
 // Append SVG
 
@@ -65,7 +65,7 @@ function getSize(_selection, _dimension) {
 }
 
 exports.convertToTspans = function(_context, _callback) {
-    var str = html2unicode(_context.text());
+    var str = _context.text();
     var converted = convertToSVG(str);
     var that = _context;
 
@@ -235,22 +235,48 @@ var PROTOCOLS = ['http:', 'https:', 'mailto:'];
 
 var STRIP_TAGS = new RegExp('</?(' + Object.keys(TAG_STYLES).join('|') + ')( [^>]*)?/?>', 'g');
 
+var ENTITY_TO_UNICODE = Object.keys(stringMappings.entityToUnicode).map(function(k) {
+    return {
+        regExp: new RegExp('&' + k + ';', 'g'),
+        sub: stringMappings.entityToUnicode[k]
+    };
+});
+
+var UNICODE_TO_ENTITY = Object.keys(stringMappings.unicodeToEntity).map(function(k) {
+    return {
+        regExp: new RegExp(k, 'g'),
+        sub: '&' + stringMappings.unicodeToEntity[k] + ';'
+    };
+});
+
 exports.plainText = function(_str) {
     // strip out our pseudo-html so we have a readable
     // version to put into text fields
     return (_str || '').replace(STRIP_TAGS, ' ');
 };
 
+function replaceFromMapObject(_str, list) {
+    var out = _str || '';
+
+    for(var i = 0; i < list.length; i++) {
+        var item = list[i];
+        out = out.replace(item.regExp, item.sub);
+    }
+
+    return out;
+}
+
+function convertEntities(_str) {
+    return replaceFromMapObject(_str, ENTITY_TO_UNICODE);
+}
+
 function encodeForHTML(_str) {
-    return (_str || '').replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#x27;')
-        .replace(/\//g, '&#x2F;');
+    return replaceFromMapObject(_str, UNICODE_TO_ENTITY);
 }
 
 function convertToSVG(_str) {
+    _str = convertEntities(_str);
+
     var result = _str
         .split(/(<[^<>]*>)/).map(function(d) {
             var match = d.match(/<(\/?)([^ >]*)\s*(.*)>/i),
@@ -269,6 +295,7 @@ function convertToSVG(_str) {
                      * resurrect it.
                      */
                     extraStyle = extra.match(/^style\s*=\s*"([^"]+)"\s*/i);
+
                 // anchor and br are the only ones that don't turn into a tspan
                 if(tag === 'a') {
                     if(close) return '</a>';

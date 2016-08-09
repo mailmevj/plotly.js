@@ -135,7 +135,6 @@ describe('svg+text utils', function() {
                 '<a href="XSS&quot; onmouseover=&quot;alert(1)&quot; style=&quot;font-size:300px">Subtitle</a>'
             );
 
-            console.log(node.select('a').attr('xlink:href'));
             expect(node.text()).toEqual('Subtitle');
             assertAnchorAttrs(node);
             assertAnchorLink(node, 'XSS&quot; onmouseover=&quot;alert(1)&quot; style=&quot;font-size:300px');
