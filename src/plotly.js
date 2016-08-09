@@ -22,7 +22,7 @@
 require('es6-promise').polyfill();
 
 // lib functions
-var Lib = exports.Lib = require('./lib');
+exports.Lib = require('./lib');
 exports.util = require('./lib/svg_text_utils');
 exports.Queue = require('./lib/queue');
 
@@ -34,7 +34,6 @@ exports.MathJaxConfig = require('./fonts/mathjax_config');
 exports.defaultConfig = require('./plot_api/plot_config');
 
 // plots
-
 exports.Plots = require('./plots/plots');
 exports.Axes = require('./plots/cartesian/axes');
 exports.Fx = require('./plots/cartesian/graph_interact');
@@ -52,6 +51,7 @@ exports.Legend = require('./components/legend');
 exports.Images = require('./components/images');
 exports.UpdateMenus = require('./components/updatemenus');
 exports.ModeBar = require('./components/modebar');
+
 // plot api
 require('./plot_api/plot_api');
 exports.PlotSchema = require('./plot_api/plot_schema');
